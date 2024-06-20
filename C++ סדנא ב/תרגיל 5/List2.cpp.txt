@@ -1,0 +1,202 @@
+//ron oshri ovadia 203391107//
+// introduction to c++//
+// Exercise 5.2//
+//The program has 3 functions one bastard 2 lists one turns a list into a group and one turns a list into the other side//
+#include "List.h"
+List::Link::Link(int k, Link* nxt)
+{
+	key = k;
+	next = nxt;
+}
+
+List::List()
+{
+	head = nullptr;
+}
+
+//List::~List()
+//{
+//	clear();
+//}
+List List::operator=(const List& list)
+{
+	List::Link* link1 = list.head;
+	if (!list.isEmpty()) {
+		head = new List::Link(list.head->key, NULL);
+		link1 = list.head->next;
+	}
+	else {
+		return *this;
+	}
+	List::Link* link2 = head->next;
+	List::Link* link3 = head;
+	bool end = 0;
+	while (!end) {  //copy the list
+		link2 = new List::Link(link1->key, NULL);
+		link3->next = link2;
+		if (link1->next != NULL) {
+			link1 = link1->next;
+			link2 = link2->next;
+			link3 = link3->next;
+		}
+		else
+			end = 1;
+	}
+	return *this;
+
+
+}
+bool List::isEmpty()const
+{
+	return head == nullptr;
+
+}
+int List::firstElement()const
+{
+	//if (isEmpty())
+		//throw"the list is empty
+	return head->key;
+}
+void List::removefirst()
+{
+	if (head != NULL) {
+		Link* p = head;
+		head = head->next;
+		p->next = NULL;
+		delete p;
+	}
+}
+void List::clear()
+{
+	Link* p = head;
+	while (head)
+	{
+		head = head->next;
+		delete p;
+		p = head;
+	}
+
+}
+
+void List::insert(int value)
+{
+	Link* p = head;
+
+	
+	if (head == NULL)
+	{
+		head = new Link(value);
+		return;
+	}
+
+
+	while (p->key > value && p->next != NULL)
+	{
+		if (p->next->key > value)
+			p = p->next;
+		else
+			break;
+	}
+
+	if (p == head && p->key < value)
+	{
+		Link* newhead = new Link(value, head);
+		head = newhead;
+	}
+
+
+	else if (p->next == NULL)
+	{
+		p->next = new Link(value);
+	}
+	
+	else
+	{
+		Link* newlink = new Link(value, p->next);
+		p->next = newlink;
+	}
+}
+
+void List::remove(int key1)
+{
+
+	if (head == NULL)
+		return;
+
+
+	Link* p = head;
+	if (p->key == key1)
+	{
+		Link* temp = head;
+		head = head->next;
+		return;
+	}
+	while (p->next != NULL)
+	{
+		if (key1 == p->next->key)
+		{
+			p->next = p->next->next;
+			return;
+		}
+		p = p->next;
+	}
+
+
+
+
+
+}
+
+ostream& operator<<(ostream& os, const List& list)
+{
+	List::Link* list1 = list.head;
+	//bool flag;
+	while (list1 != nullptr)
+	{
+		os << list1->key << " ";
+		list1 = list1->next;
+
+	}
+	//os << endl;
+	return os;
+}
+
+istream& operator>>(istream& is, List& list)
+{
+	int list2;
+	is >> list2;
+	list.head = new List::Link(list2, NULL);
+	is >> list2;
+	List::Link* list1 = list.head;
+	while (list2 < list1->key)
+	{
+		list1->next = new List::Link(list2, NULL);
+		list1 = list1->next;
+		is >> list2;
+
+	}
+	return is;
+}
+bool List::search(int k)const
+{
+	Link* p = head;
+	while (p)
+	{
+		if (p->key == k)
+			return true;
+		p = p->next;
+	}
+	return false;
+}
+
+void List::addfirst(int k)
+{
+	Link* lnk = new Link(k);
+	if (isEmpty())
+		head = lnk;
+	else {
+		lnk->next = head;
+		head = lnk;
+	}
+}
+

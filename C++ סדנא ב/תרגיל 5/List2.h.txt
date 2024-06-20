@@ -1,0 +1,39 @@
+//ron oshri ovadia 203391107//
+// introduction to c++//
+// Exercise 5.2//
+//The program has 3 functions one bastard 2 lists one turns a list into a group and one turns a list into the other side//
+#pragma once
+#include <iostream>
+using namespace std;
+class List
+{
+private:
+
+	class Link
+	{
+	public:
+		int key;
+		Link* next;
+		Link(int k = 0, Link* nxt = nullptr);
+	};
+	Link* head;
+public:
+	List();
+	//List(const List&);
+	//~List();
+	List operator=(const List& list);
+	bool isEmpty()const;
+	//void addFirst(int);
+	//bool search(int);
+	int firstElement()const;
+	void removefirst();
+	//void removeFirst();
+	void clear();
+	void insert(int value);
+	friend ostream& operator << (ostream& os, const List& list);
+	friend istream& operator >> (istream& is, List& list);
+	void remove(int key1);
+	bool search(int k)const;
+	void addfirst(int k);
+};
+
